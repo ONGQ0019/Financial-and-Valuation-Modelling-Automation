@@ -1,0 +1,169 @@
+
+Sub Start()
+'
+' Start Macro
+'
+
+'
+    Range("I3").Select
+    Selection.Copy
+    Range("A2").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Selection.ConvertToLinkedDataType ServiceID:=268435456, LanguageCulture:= _
+        "en-US"
+    Range("B2").FormulaR1C1 = "=RC[-1].Price "
+    Range("C2").FormulaR1C1 = "=RC[-2].[P/E] "
+    Range("D2").Select
+    Application.CutCopyMode = False
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[-2]/RC[-1]"
+    Range("A2").Select
+    Range("E2").FormulaR1C1 = "=RC[-4].[Market cap] "
+    Range("F2").FormulaR1C1 = "=RC[-5].[Shares outstanding] "
+    Columns("E:E").EntireColumn.AutoFit
+    Range("A4").Select
+    Sheets("dump").Select
+    Dim VA  As String
+    VA = Sheets("dump").Cells(39, "R").Value
+    Selection.Copy
+    Range("R39").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("Input Sheet").Select
+    ActiveWorkbook.Queries.Add Name:="Cash flow statement", Formula:= _
+        "let" & Chr(13) & "" & Chr(10) & "    Source = Web.Page(Web.Contents(""" & VA & """))," & Chr(13) & "" & Chr(10) & "    Data9 = Source{9}[Data]," & Chr(13) & "" & Chr(10) & "    #""Changed Type"" = Table.TransformColumnTypes(Data9,{{""Column1"", type text}, {""Column2"", type text}})" & Chr(13) & "" & Chr(10) & "in" & Chr(13) & "" & Chr(10) & "    #""Changed Type"""
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "OLEDB;Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=""Cash flow statement"";Extended Properties=""""" _
+        , Destination:=Range("$A$4")).QueryTable
+        .CommandType = xlCmdSql
+        .CommandText = Array("SELECT * FROM [Cash flow statement]")
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .ListObject.DisplayName = "Cash_flow_statement"
+        .Refresh BackgroundQuery:=False
+    End With
+    Selection.Copy
+    Range("D4").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Sheets("dump").Select
+    Range("R42").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("Input Sheet").Select
+    Dim VAS  As String
+    VAS = Sheets("dump").Cells(42, "R").Value
+    Application.CutCopyMode = False
+    ActiveWorkbook.Queries.Add Name:="Table 0", Formula:= _
+        "let" & Chr(13) & "" & Chr(10) & "    Source = Web.Page(Web.Contents(""" & VAS & """))," & Chr(13) & "" & Chr(10) & "    Data0 = Source{0}[Data]," & Chr(13) & "" & Chr(10) & "    #""Changed Type"" = Table.TransformColumnTypes(Data0,{{""Column1"", type text}, {""Column2"", type text}, {""Column3"", type text}, {""Column4"", type date}, {""Column5"", type date}, {""Column6"", type date}, {""Column7"", type" & _
+        " date}, {""Column8"", type date}, {""Column9"", type text}, {""Column10"", type text}, {""Column11"", type text}, {""Column12"", type text}, {""Column13"", type text}})" & Chr(13) & "" & Chr(10) & "in" & Chr(13) & "" & Chr(10) & "    #""Changed Type"""
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "OLEDB;Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=""Table 0"";Extended Properties=""""" _
+        , Destination:=Range("$N$38")).QueryTable
+        .CommandType = xlCmdSql
+        .CommandText = Array("SELECT * FROM [Table 0]")
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .ListObject.DisplayName = "Table_0"
+        .Refresh BackgroundQuery:=False
+    End With
+    Range("Table_0[[#Headers],[Column1]]").Select
+    Selection.End(xlToRight).Select
+    Selection.End(xlDown).Select
+    Selection.Copy
+    Range("G10").Select
+    ActiveSheet.Paste
+    Range("G11").Select
+    Sheets("dump").Select
+    Range("R45").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("Input Sheet").Select
+    Dim VASD  As String
+    VASD = Sheets("dump").Cells(45, "R").Value
+    Dim XX  As String
+    XX = Sheets("Input Sheet").Cells(1, "I").Value
+    Application.CutCopyMode = False
+    ActiveWorkbook.Queries.Add Name:="Table 5", Formula:= _
+        "let" & Chr(13) & "" & Chr(10) & "    Source = Web.Page(Web.Contents(""" & VASD & """))," & Chr(13) & "" & Chr(10) & "    Data5 = Source{5}[Data]," & Chr(13) & "" & Chr(10) & "    #""Changed Type"" = Table.TransformColumnTypes(Data5,{{""Growth estimates"", type text}, {""" & XX & """, Percentage.Type}, {""Industry"", type text}, {""Sector(s)"", type text}, {""S&P 500"", type text}})" & Chr(13) & "" & Chr(10) & "in" & Chr(13) & "" & Chr(10) & "    #""Changed Type"""
+    With ActiveSheet.ListObjects.Add(SourceType:=0, Source:= _
+        "OLEDB;Provider=Microsoft.Mashup.OleDb.1;Data Source=$Workbook$;Location=""Table 5"";Extended Properties=""""" _
+        , Destination:=Range("$A$10")).QueryTable
+        .CommandType = xlCmdSql
+        .CommandText = Array("SELECT * FROM [Table 5]")
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .BackgroundQuery = True
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .PreserveColumnInfo = True
+        .ListObject.DisplayName = "Table_5"
+        .Refresh BackgroundQuery:=False
+    End With
+    Range("Table_5[#All]").Select
+    Selection.Copy
+    Range("A18").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("F23").Select
+    Sheets("dump").Select
+    Range("Q27").Select
+    Sheets("Input Sheet").Select
+    Range("Cash_flow_statement[[#All],[Column2]]").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("E4").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("H26").Select
+    ActiveCell.FormulaR1C1 = "YOUR REPORT HAS BEEN GENERATED"
+    Range("H26").Select
+    Selection.Font.Size = 36
+    Selection.Font.Bold = True
+End Sub
+
+
+
+
+Sub Clear()
+'
+' Clear Macro
+'
+
+'
+    Range("A2:G53").Select
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    Range("M19:AB54").Select
+    Selection.ClearContents
+    Dim pq As Object
+    For Each pq In ThisWorkbook.Queries
+        pq.Delete
+    Next
+    Range("H26").Select
+    Selection.ClearContents
+End Sub
